@@ -11,5 +11,6 @@
   "blank permission": "[{\"account_id\": \"123456789012\", \"role\": \"R\", \"permissions\": [\" \"]}]",
   "permissions a string": "[{\"account_id\": \"123456789012\", \"role\": \"R\", \"permissions\": \"x\"}]",
   "numeric permission": "[{\"account_id\": \"123456789012\", \"role\": \"R\", \"permissions\": [1]}]",
-  "trailing data": "[] []"
+  "trailing data": "[] []",
+  "null": "null"
 }

@@ -87,6 +87,21 @@ func TestFromEnv_Unset(t *testing.T) {
 	}
 }
 
+func TestParseGrants_EmptyArray(t *testing.T) {
+	grants, err := ParseGrants([]byte(`[]`))
+	if err != nil || len(grants) != 0 {
+		t.Errorf("ParseGrants([]) = %v, %v; want no grants and no error", grants, err)
+	}
+}
+
+func TestFromEnv_Null(t *testing.T) {
+	t.Setenv(EnvVar, "null")
+
+	if _, ok, err := FromEnv(); !ok || err == nil {
+		t.Errorf("FromEnv with null = ok %v, err %v; want ok and an error", ok, err)
+	}
+}
+
 func TestFromEnv_Invalid(t *testing.T) {
 	t.Setenv(EnvVar, `[{"account_id": "1", "role": "R", "permissions": []}]`)
 
