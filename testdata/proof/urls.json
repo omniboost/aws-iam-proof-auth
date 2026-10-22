@@ -1,0 +1,116 @@
+{
+  "_comment": "Presigned URL validation cases shared by the Go and PHP verifiers. nonce is the expected nonce, or null when the URL must be rejected.",
+  "now": "2026-01-02T15:04:05Z",
+  "cases": [
+    {
+      "name": "valid sts endpoint",
+      "url": "https://sts.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=60&X-Amz-Nonce=nonce-123",
+      "nonce": "nonce-123"
+    },
+    {
+      "name": "valid regional sts endpoint",
+      "url": "https://sts.eu-west-1.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=60&X-Amz-Nonce=nonce-123",
+      "nonce": "nonce-123"
+    },
+    {
+      "name": "valid fips sts endpoint",
+      "url": "https://sts-fips.us-east-1.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=60&X-Amz-Nonce=nonce-123",
+      "nonce": "nonce-123"
+    },
+    {
+      "name": "valid dual-stack sts endpoint",
+      "url": "https://sts.eu-west-1.api.aws/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=60&X-Amz-Nonce=nonce-123",
+      "nonce": "nonce-123"
+    },
+    {
+      "name": "expiry at the cap is accepted",
+      "url": "https://sts.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=120&X-Amz-Nonce=nonce-123",
+      "nonce": "nonce-123"
+    },
+    {
+      "name": "http scheme",
+      "url": "http://sts.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=60&X-Amz-Nonce=nonce-123",
+      "nonce": null
+    },
+    {
+      "name": "wrong action",
+      "url": "https://sts.amazonaws.com/?Action=AssumeRole&X-Amz-Date=20260102T150405Z&X-Amz-Expires=60&X-Amz-Nonce=nonce-123",
+      "nonce": null
+    },
+    {
+      "name": "non-sts host",
+      "url": "https://evil.example.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=60&X-Amz-Nonce=nonce-123",
+      "nonce": null
+    },
+    {
+      "name": "sts prefix but wrong domain",
+      "url": "https://sts.evil.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=60&X-Amz-Nonce=nonce-123",
+      "nonce": null
+    },
+    {
+      "name": "amazonaws domain but not sts subdomain",
+      "url": "https://s3.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=60&X-Amz-Nonce=nonce-123",
+      "nonce": null
+    },
+    {
+      "name": "amazonaws suffix inside another domain",
+      "url": "https://sts.amazonaws.com.evil.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=60&X-Amz-Nonce=nonce-123",
+      "nonce": null
+    },
+    {
+      "name": "expiry exceeds the cap",
+      "url": "https://sts.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=3600&X-Amz-Nonce=nonce-123",
+      "nonce": null
+    },
+    {
+      "name": "expiry overflows an int",
+      "url": "https://sts.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=99999999999999999999&X-Amz-Nonce=nonce-123",
+      "nonce": null
+    },
+    {
+      "name": "missing expiry",
+      "url": "https://sts.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Nonce=nonce-123",
+      "nonce": null
+    },
+    {
+      "name": "non-numeric expiry",
+      "url": "https://sts.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=soon&X-Amz-Nonce=nonce-123",
+      "nonce": null
+    },
+    {
+      "name": "zero expiry",
+      "url": "https://sts.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=0&X-Amz-Nonce=nonce-123",
+      "nonce": null
+    },
+    {
+      "name": "negative expiry",
+      "url": "https://sts.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=-5&X-Amz-Nonce=nonce-123",
+      "nonce": null
+    },
+    {
+      "name": "missing date",
+      "url": "https://sts.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Expires=60&X-Amz-Nonce=nonce-123",
+      "nonce": null
+    },
+    {
+      "name": "invalid date",
+      "url": "https://sts.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=yesterday&X-Amz-Expires=60&X-Amz-Nonce=nonce-123",
+      "nonce": null
+    },
+    {
+      "name": "date older than nonce ttl",
+      "url": "https://sts.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T145805Z&X-Amz-Expires=60&X-Amz-Nonce=nonce-123",
+      "nonce": null
+    },
+    {
+      "name": "missing nonce",
+      "url": "https://sts.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=60",
+      "nonce": null
+    },
+    {
+      "name": "empty nonce",
+      "url": "https://sts.amazonaws.com/?Action=GetCallerIdentity&X-Amz-Date=20260102T150405Z&X-Amz-Expires=60&X-Amz-Nonce=",
+      "nonce": null
+    }
+  ]
+}

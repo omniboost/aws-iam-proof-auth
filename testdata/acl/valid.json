@@ -1,0 +1,22 @@
+[
+  {
+    "account_id": "123456789012",
+    "role": "Developer",
+    "permissions": [
+      "pipelines.view",
+      "pipelines.edit"
+    ]
+  },
+  {
+    "account_id": "123456789012",
+    "role": "Developer",
+    "permissions": [
+      "pipelines.delete"
+    ]
+  },
+  {
+    "account_id": "210987654321",
+    "role": "Reader",
+    "permissions": []
+  }
+]

@@ -1,0 +1,54 @@
+{
+    "name": "omniboost/aws-iam-proof-auth",
+    "description": "Service-to-service authentication with the caller's AWS IAM identity: sign outgoing requests and verify incoming ones with AWS-IAM-PROOF headers. Includes Laravel middleware.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "aws",
+        "iam",
+        "sts",
+        "authentication",
+        "laravel",
+        "middleware"
+    ],
+    "require": {
+        "php": "^8.2",
+        "aws/aws-sdk-php": "^3.300",
+        "guzzlehttp/guzzle": "^7.8",
+        "guzzlehttp/psr7": "^2.6",
+        "psr/log": "^2.0 || ^3.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^10.0 || ^11.0",
+        "phpunit/phpunit": "^10.5 || ^11.0 || ^12.0 || ^13.0"
+    },
+    "suggest": {
+        "laravel/framework": "For the middleware, the Http::withAwsIamProof() macro and the cache-backed nonce store (^12 || ^13)"
+    },
+    "autoload": {
+        "psr-4": {
+            "Omniboost\\AwsIamProof\\": "php/src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Omniboost\\AwsIamProof\\Tests\\": "php/tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Omniboost\\AwsIamProof\\Laravel\\AwsIamProofServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true,
+        "vendor-dir": "php/vendor"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
