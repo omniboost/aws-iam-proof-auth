@@ -153,12 +153,6 @@ go run github.com/omniboost/aws-iam-proof-auth/cmd/authhelper@latest -print   # 
 composer require omniboost/aws-iam-proof-auth
 ```
 
-Until the package is on Packagist, add the repository first:
-
-```sh
-composer config repositories.aws-iam-proof-auth vcs https://github.com/omniboost/aws-iam-proof-auth
-```
-
 Requires PHP 8.2+. The Laravel integration supports Laravel 12 and 13 and is
 auto-discovered.
 
