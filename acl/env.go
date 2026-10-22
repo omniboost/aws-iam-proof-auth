@@ -34,6 +34,11 @@ func ParseGrants(data []byte) ([]Grant, error) {
 	if _, err := dec.Token(); !errors.Is(err, io.EOF) {
 		return nil, errors.New("acl: decode grants: unexpected data after the array")
 	}
+	// JSON null decodes into a nil slice without an error; only an array,
+	// even an empty one, is a valid grant list.
+	if grants == nil {
+		return nil, errors.New("acl: decode grants: grants must be a JSON array, got null")
+	}
 
 	for i, g := range grants {
 		if !accountIDPattern.MatchString(g.AccountID) {
